@@ -13,10 +13,12 @@ export async function POST(NextRequest) {
   const axios = require("axios");
   const body = await NextRequest.json()
 
+  console.log(body['prompt'])
+
   try {
     const response = await openai.createChatCompletion({
       model: "gpt-4",
-      messages: [{role: "user", content: `${body['prompt']}" generate four multiple choice questions with four options one of which is correct, also provide provide the answer and order them as a key value pair json without newlines in the following format "{[{question: 'question', options: Array(4), correct_answer: 'answer'},{question: 'question', options: Array(4), correct_answer: 'answer'},{question: 'question', options: Array(4), correct_answer: 'answer'},{{question: 'question', options: Array(4), correct_answer: 'answer'}]}"`}],
+      messages: [{role: "user", content: `${JSON.stringify(body.prompt)}" generate four multiple choice questions with four options one of which is correct from the pointer above, also provide provide the answer and order them as a key value pair json without newlines in the following format "{[{question: 'question', options: Array(4), correct_answer: 'answer'},{question: 'question', options: Array(4), correct_answer: 'answer'},{question: 'question', options: Array(4), correct_answer: 'answer'},{{question: 'question', options: Array(4), correct_answer: 'answer'}]}"`}],
     });
 
     const data = response.data
